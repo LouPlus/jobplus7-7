@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ job.name }}
+{% endblock %}
+
+{% block head %}
+<div class="jumbotron">
+    <div class="container">
+        <div class="col-md-8">
+            <h2>{{ job.name }}</h2>
+             <p><span class="job-salary">{{ job.salary }}</span>&nbsp;学历及经验{{ job.degree }}    
+             </p>
+        </div>
+
+<!-- 简历投递按钮 -->
+
+    </div>
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="col-md-8">
+    <div class="job-detail">
+        <h3>福利待遇</h3> <br>
+        <p>{{ job.company.welfare }}</p> <br>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="media">
+        <div class="media-left">
+            <a href="#">
+                <img src="{{ job.company.logo }}" class="media-object" height="96" width="96"> 
+            </a>
+        </div>
+        <div class="media-body">
+        </div>
+    </div>
+    <h4>{{ job.company.name }}</h4>
+    <p>领域:{{ job.company.industry }}</p>
+    <p>规模:{{ job.company.staff_num }}</p>
+    <p>地址:{{ job.company.address }}</p>
+</div>
+{% endblock %}
+
+

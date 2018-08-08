@@ -58,3 +58,9 @@ def disable(job_id):
         return redirect(url_for('admin.jobs'))
     else:
         return redirect(url_for('company.admin', company_id=job.company_id))
+
+@job.route('/<int:job_id>')
+def detail(job_id):
+    job = Job.query.get_or_404(job_id)
+    return render_template('job/detail.html', job=job)
+

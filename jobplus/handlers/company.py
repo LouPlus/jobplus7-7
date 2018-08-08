@@ -94,3 +94,16 @@ def delete_job(company_id, job_id):
     db.session.commit()
     flash('删除职位成功', 'success')
     return redirect(url_for('company.admin', company_id=company_id))
+
+@company.route('/<int:company_id>')
+def detail(company_id):
+    company = Company.query.get_or_404(company_id)
+    return render_template('company/detail.html', company=company, active='', panel='about')
+
+@company.route('/<int:company_id>/job')
+def company_jobs(company_id):
+    company = Company.query.get_or_404(company_id)
+    return render_template('company/detail.html', company=company, active='', panel='job')
+
+
+

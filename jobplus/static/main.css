@@ -50,3 +50,19 @@
   line-height: 1.5 !important;
   min-width: 72px !important;
 }
+.job-salary {
+  color: #fd5f39
+}
+.job-detail {
+font-size: 15px;
+margin-bottom: 50px;
+}
+.job-meta{
+color: #999
+}
+.job-item{
+border: 1px solid #eee;
+border-left: 5px solid #00b38a;
+padding: 15px 10px;
+margin-bottom: 15px;
+}
