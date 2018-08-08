@@ -5,7 +5,7 @@
     <meta charset='UTF-8' />
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
-    <link rel="stylesheet" href="../static/main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <style>
         {% block style %}{% endblock %}
     </style>
@@ -38,10 +38,14 @@
                     <a href="{{ url_for('company.index') }}">公司</a>
                     </li>
                     {% if current_user.is_authenticated and current_user.is_admin %}
-                    <li><a href="{{ url_for('admin.users') }}">控制台</a></li>
+                    <li class="{% if active == 'admin' %}active{% endif %}">
+                    <a href="{{ url_for('admin.users') }}">控制台</a>
+                    </li>
                     {% endif %}
                     {% if current_user.is_authenticated and current_user.is_company %}
-                    <li><a href="{{ url_for('company.admin', company_id=current_user.company.id) }}">管理</a></li>
+                    <li class="{% if active == 'company_admin' %}active{% endif %}">
+                    <a href="{{ url_for('company.admin', company_id=current_user.company.id) }}">管理</a>
+                    </li>
                     {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -77,7 +81,7 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="static/main.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 
 </html>

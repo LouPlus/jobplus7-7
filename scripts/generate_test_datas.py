@@ -3,7 +3,7 @@ import json
 import re
 from faker import Faker
 from random import randint
-from jobplus.models import db, User, Job, Resume, Company
+from jobplus.models import db, User, Job, Resume, Company, Deliver
 
 
 fake = Faker()
@@ -13,6 +13,33 @@ faker_data = json.load(open(path))
 
 
 LENGTH = len(faker_data)
+
+def fake_user():
+    u = User(
+        username = 'test',
+        email = 'test@qq.com',
+        password = '123123'
+    )
+
+    try:
+        db.session.add(u)
+        db.session.commit()
+    except:
+        db.rollback()
+
+    user = User.query.filter_by(email=u.email).first_or_404()
+
+    r = Resume(
+        name = '薛' + u.username,
+        degree = '本科',
+        work_year = 5,
+        phone = 19966668888,
+        resume_url = 'https://github.com/louplus/jobplus7-7',
+        user_id = user.id
+    )
+
+    db.session.add(r)
+    db.session.commit()
 
 
 def fake_companies():
@@ -26,7 +53,7 @@ def fake_companies():
 
         c = User(
             username = company['name'],        
-            email = 'shiyanlou_' + str(i) + '@qq.com',
+            email = 'shiyanlou_' + str(i + 1) + '@qq.com',
             role = 20
         )
 
@@ -45,6 +72,9 @@ def fake_companies():
         d = Company(
             name = company['name'],
             logo = company['logo'],
+            phone = '16699998888',
+            description = '暂时还没有描述呢~',
+            website = 'shiyanlou.com',
             address = company['address'].split('：')[1],
             city = company['city'],
             staff_num = company['size'].split('：')[1],
@@ -55,6 +85,18 @@ def fake_companies():
 
         db.session.add(d)
         db.session.commit()
+
+
+def fake_admin():
+    admin = User(
+        username = 'admin',
+        email = 'admin@qq.com',
+        password = '123123',
+        role = 30
+    )
+
+    db.session.add(admin)
+    db.session.commit()
 
 
 def fake_jobs():
@@ -75,6 +117,23 @@ def fake_jobs():
         db.session.commit()
 
 
+def fake_deliver():
+    user = User.query.filter_by(role=10).first_or_404()
+    company = User.query.filter_by(role=20).first_or_404()
+    job = Job.query.filter_by(company_id=company.id).first_or_404()
+
+    d = Deliver(
+        company_id = company.id,
+        user_id = user.id,
+        job_id = job.id
+    )
+
+    db.session.add(d)
+    db.session.commit()
+
 def run():
     fake_companies()
+    fake_user()
+    fake_admin()
     fake_jobs()
+    fake_deliver()

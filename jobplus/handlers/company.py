@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, flash, redirect, request,
 from jobplus.forms import JobForm, CompanyProfileForm
 from flask_login import current_user
 from jobplus.decorators import company_required
-from jobplus.models import db, Job, User, Company
+from jobplus.models import db, Job, User, Company, Deliver
 
 company = Blueprint('company', __name__, url_prefix='/company')
 
@@ -41,7 +41,7 @@ def admin(company_id):
         per_page=current_app.config['ADMIN_PER_PAGE'],
         error_out=False
     )
-    return render_template('company/jobs.html', company_id=company_id, pagination=pagination)  
+    return render_template('company/jobs.html', company_id=company_id, pagination=pagination, active='company_admin')
 
 
 @company.route('/<int:company_id>/admin/publish_job', methods=['GET','POST'])
@@ -107,3 +107,65 @@ def company_jobs(company_id):
 
 
 
+@company.route('/<int:company_id>/admin/apply/', methods=['GET','POST'])
+@company_required
+def apply(company_id):
+    if current_user.company.id != company_id:
+        abort(404)
+
+    status = request.args.get('status', 'all')
+    page = request.args.get('page', default=1, type=int)
+
+    if status == 'waiting':
+        status = Deliver.STATUS_WAITING
+    elif status == 'reject':
+        status = Deliver.STATUS_REJECT
+    elif status == 'accept':
+        status = Deliver.STATUS_ACCEPT
+    else:
+        status = 0
+
+    if status == 0:
+        q = Deliver.query.filter_by(company_id=company_id)
+    else:
+        q = Deliver.query.filter_by(company_id=company_id, status=status)
+
+    pagination = q.order_by(Deliver.created_at.desc()).paginate(
+        page=page,
+        per_page=current_app.config['ADMIN_PER_PAGE'],
+        error_out=False
+    )
+
+    return render_template('company/apply.html', pagination=pagination, company_id=company_id, status=status, active='company_admin')
+
+
+@company.route('/<int:company_id>/admin/apply/<int:deliver_id>/accept', methods=['GET'])
+@company_required
+def accept(company_id, deliver_id):
+    if current_user.company.id != company_id:
+        abort(404)
+
+    d = Deliver.query.get_or_404(deliver_id)
+
+    d.status = Deliver.STATUS_ACCEPT
+
+    db.session.add(d)
+    db.session.commit()
+
+    return redirect(url_for('company.apply', company_id=company_id))
+
+
+@company.route('/<int:company_id>/admin/apply/<int:deliver_id>/reject', methods=['GET'])
+@company_required
+def reject(company_id, deliver_id):
+    if current_user.company.id != company_id:
+        abort(404)
+
+    d = Deliver.query.get_or_404(deliver_id)
+
+    d.status = Deliver.STATUS_REJECT
+
+    db.session.add(d)
+    db.session.commit()
+
+    return redirect(url_for('company.apply', company_id=company_id))
