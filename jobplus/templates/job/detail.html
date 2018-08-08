@@ -12,6 +12,10 @@
              <p><span class="job-salary">{{ job.salary }}</span>&nbsp;学历及经验{{ job.degree }}    
              </p>
         </div>
+        <div class='col-md-4'>
+            <a class='btn btn-primary' href="{{ url_for('job.send_resume', job_id=job.id) }}">投递简历</a>
+        </div>
+
 
 <!-- 简历投递按钮 -->
 

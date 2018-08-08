@@ -64,3 +64,17 @@ def detail(job_id):
     job = Job.query.get_or_404(job_id)
     return render_template('job/detail.html', job=job)
 
+@job.route('/<int:job_id>/send_resume')
+def send_resume(job_id):
+    job = Job.query.get_or_404(job_id)
+
+    d = Deliver(
+        company_id = job.company_id,
+        job_id = job_id,
+        user_id = current_user.id
+    )
+
+    db.session.add(d)
+    db.session.commit()
+
+    return redirect(url_for('job.detail', job_id=job_id))
