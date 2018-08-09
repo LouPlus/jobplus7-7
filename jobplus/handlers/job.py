@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app, abort
 from jobplus.forms import JobForm
 from flask_login import login_required, current_user
-from jobplus.models import db, Job
+from jobplus.models import db, Job, Deliver
 
 job = Blueprint('job', __name__, url_prefix='/job')
 
@@ -64,3 +64,24 @@ def detail(job_id):
     job = Job.query.get_or_404(job_id)
     return render_template('job/detail.html', job=job)
 
+@job.route('/<int:job_id>/send_resume')
+def send_resume(job_id):
+    job = Job.query.get_or_404(job_id)
+
+    if current_user.resume.resume_url is None:
+        flash('请上传简历后再投递', 'warning')
+    elif job.current_user_is_applied:
+        flash('已经投递过该职位', 'warning')
+    else:
+        d = Deliver(
+            company_id = job.company_id,
+            job_id = job_id,
+            user_id = current_user.id
+        )
+
+        db.session.add(d)
+        db.session.commit()
+
+        flash('投递成功', 'success')
+
+    return redirect(url_for('job.detail', job_id=job_id))

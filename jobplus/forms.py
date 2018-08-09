@@ -86,7 +86,7 @@ class CompanyProfileForm(FlaskForm):
     logo = StringField('Logo') 
     website = StringField('网站') 
     city = StringField('城市') 
-    size = StringField('公司规模') 
+    staff_num = StringField('公司规模') 
     industry = StringField('行业 (多个用/ 隔开)') 
     welfare = StringField('公司福利 (多个用, 隔开)')
     address = StringField('公司地址') 

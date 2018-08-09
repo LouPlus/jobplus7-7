@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 
 
 db = SQLAlchemy()
@@ -110,3 +110,38 @@ class Job(Base):
 
     def __repr__(self):
         return '<Job:{}>'.format(self.name)
+
+    @property
+    def current_user_is_applied(self):
+        d = Deliver.query.filter_by(job_id=self.id, user_id=current_user.id).first()
+        return (d is not None)
+
+
+class Deliver(Base):
+    __tablename__ = 'deliver'
+
+    # 等待企业审核
+    STATUS_WAITING = 1
+    # 被拒绝 
+    STATUS_REJECT = 2
+    # 被接受， 等待通知面试 
+    STATUS_ACCEPT = 3
+
+
+    id = db.Column(db.Integer, primary_key=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('job.id', ondelete='SET NULL'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='SET NULL'))
+    company_id = db.Column(db.Integer)
+    status = db.Column(db.SmallInteger, default=STATUS_WAITING)
+    response = db.Column(db.String(256))
+
+    user = db.relationship('User', uselist=False)
+    job = db.relationship('Job', uselist=False)
+
+    @property
+    def user(self):
+        return User.query.get(self.user_id)
+
+    @property
+    def job(self):
+        return Job.query.get(self.job_id)
