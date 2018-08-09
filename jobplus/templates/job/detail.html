@@ -13,7 +13,13 @@
              </p>
         </div>
         <div class='col-md-4'>
-            <a class='btn btn-primary' href="{{ url_for('job.send_resume', job_id=job.id) }}">投递简历</a>
+            {% if current_user.is_authenticated %}
+              {% if not job.current_user_is_applied %}
+                <a class='btn btn-primary' href="{{ url_for('job.send_resume', job_id=job.id) }}">投递简历</a>
+              {% else %}
+                <a class='btn btn-success' href="javascript:;">已投递</a>
+              {% endif %}
+            {% endif %}
         </div>
 
 

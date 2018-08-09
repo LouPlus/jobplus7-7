@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 
 
 db = SQLAlchemy()
@@ -110,6 +110,12 @@ class Job(Base):
 
     def __repr__(self):
         return '<Job:{}>'.format(self.name)
+
+    @property
+    def current_user_is_applied(self):
+        d = Deliver.query.filter_by(job_id=self.id, user_id=current_user.id).first()
+        return (d is not None)
+
 
 class Deliver(Base):
     __tablename__ = 'deliver'

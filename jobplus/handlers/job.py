@@ -68,13 +68,20 @@ def detail(job_id):
 def send_resume(job_id):
     job = Job.query.get_or_404(job_id)
 
-    d = Deliver(
-        company_id = job.company_id,
-        job_id = job_id,
-        user_id = current_user.id
-    )
+    if current_user.resume.resume_url is None:
+        flash('请上传简历后再投递', 'warning')
+    elif job.current_user_is_applied:
+        flash('已经投递过该职位', 'warning')
+    else:
+        d = Deliver(
+            company_id = job.company_id,
+            job_id = job_id,
+            user_id = current_user.id
+        )
 
-    db.session.add(d)
-    db.session.commit()
+        db.session.add(d)
+        db.session.commit()
+
+        flash('投递成功', 'success')
 
     return redirect(url_for('job.detail', job_id=job_id))
