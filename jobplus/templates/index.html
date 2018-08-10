@@ -13,9 +13,6 @@
 {% endblock %}
 
 {% block body %}
-<ul class="nav nav-tabs list-title">
-        <li role="presentation" class="active"><a href="#">New post</a></li>
-    </ul>
 
 <div class='row'>
     {% for job in jobs %}
@@ -42,7 +39,7 @@
 </div>
 
 <p class="list-more">
-    <a href="{{ url_for('company.index') }}" class="btn btn-success btn-lg list-more-btn">More</a>
+    <a href="{{ url_for('job.index') }}" class="btn btn-success btn-lg list-more-btn">更多职位</a>
 </p>
 
 {% endblock %}

@@ -5,34 +5,34 @@ from wtforms.validators import Length, Email, EqualTo, Required
 from jobplus.models import db, User, Resume, Company, Job
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[Required(), Email()])
-    password = PasswordField('Password', validators=[Required(), Length(6, 24)])
-    remember_me = BooleanField('REMEMBER ME')
-    submit = SubmitField('LOGIN TO THE SITE')
+    email = StringField('邮箱', validators=[Required(), Email()])
+    password = PasswordField('密码', validators=[Required(), Length(6, 24)])
+    remember_me = BooleanField('记住')
+    submit = SubmitField('登录')
     
     def validate_email(self, field):
         if field.data and not User.query.filter_by(email=field.data).first():
-            raise ValidationError('The email is not registered')
+            raise ValidationError('该邮箱未注册')
     def validate_password(self, field):
         user = User.query.filter_by(email=self.email.data).first()
         if user and not user.check_password(field.data):
-            raise ValidationError('Incorrect Password')
+            raise ValidationError('请输入正确的密码')
 
 
 class RegisterForm(FlaskForm):
-    name = StringField('Nickname', validators=[Required(), Length(2, 24)])
-    email = StringField('Email', validators=[Required(), Email()])
-    password = PasswordField('Password', validators=[Required(), Length(6,24)])
-    confirm_password = PasswordField('Confirm Password', validators=[Required(), EqualTo('password')])
-    submit = SubmitField('SEND')
+    name = StringField('用户名', validators=[Required(), Length(2, 24)])
+    email = StringField('邮箱', validators=[Required(), Email()])
+    password = PasswordField('密码', validators=[Required(), Length(6,24)])
+    confirm_password = PasswordField('确认密码', validators=[Required(), EqualTo('password')])
+    submit = SubmitField('提交')
 
 
     def validate_name(self, field):
         if User.query.filter_by(username=field.data).first():
-            raise ValidationError('The name has already existed')
+            raise ValidationError('用户名已存在')
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
-            raise ValidationError('The email has already existed')
+            raise ValidationError('邮箱已存在')
     def create_user(self):
         user = User()
         user.username = self.name.data
