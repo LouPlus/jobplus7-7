@@ -27,4 +27,15 @@ from scripts.generate_test_datas import run
 run()
 ```
 
+## 测试账户
+密码统一为 123123
+* 求职者 test@qq.com
+
+* 企业 shiyanlou_1_@qq.com
+
+* 管理员 admin@qq.com
+
+## 补充说明
+目前只有第一个企业有投递信息
+
 
