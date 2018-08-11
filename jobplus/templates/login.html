@@ -3,12 +3,12 @@
 {% from "macros.html" import render_form %}
 
 {% block title %}
-Login
+登陆
 {% endblock %}
 
 {% block body %}
 <div class="form">
-    <h2>Login</h2>
+    <h2>登陆</h2>
     {{ render_form(form, url_for('front.login')) }}
 </div>
 {% endblock %}

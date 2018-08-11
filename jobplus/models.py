@@ -59,7 +59,7 @@ class Resume(Base):
     __tablename__ = 'resume'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(32), unique=True, index=True, nullable=False)
+    name = db.Column(db.String(32), unique=True, index=True)
     phone = db.Column(db.String(11), index=True)
     degree = db.Column(db.String(32), index=True) 
     job = db.Column(db.String(64), index=True) 
@@ -93,6 +93,12 @@ class Company(Base):
     def __repr__(self):
         return '<Company:{}>'.format(self.id)
 
+    @property
+    def job_count(self):
+        job = Job.query.filter_by(company_id=self.id).all()
+        return len(job)
+
+
 
 class Job(Base):
     __tablename__ = 'job'
@@ -110,6 +116,7 @@ class Job(Base):
 
     def __repr__(self):
         return '<Job:{}>'.format(self.name)
+
 
     @property
     def current_user_is_applied(self):

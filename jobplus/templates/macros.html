@@ -67,14 +67,16 @@
             </div>
             <hr />
             <div class='media'>
-                <div class='media-left'>
-                    <img src="{{job.company.logo}}" class="media-object" width="82" height="82"/>
-                </div>
-                <div class='media-body' style="vertical-align: middle">
-                    <h4 class='media-heading '>
-                    {{ job.company.name }}
-                    </h4>
-                </div>
+                <a href="{{ url_for('company.detail', company_id=job.company.id) }}">
+                    <div class='media-left'>
+                        <img src="{{job.company.logo}}" class="media-object" width="82" height="82"/>
+                    </div>
+                    <div class='media-body' style="vertical-align: middle">
+                        <h4 class='media-heading company_name'>
+                        {{ job.company.name }}
+                        </h4>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
@@ -84,10 +86,10 @@
 <div class="col-sm-6 col-md-4 company-item">
     <div class="thumbnail">
         <a href="{{ url_for('company.detail', company_id=company.id) }}">
-        <img src="{{ company.logo }}" width="100" height="100" alt="{{ company.name }}">
-        <h3 class='company_name'>{{ company.name}}</h3>
-            <p>{{ company.industry }}</p>
+            <img src="{{ company.logo }}" width="100" height="100" alt="{{ company.name }}">
+            <h3 class='company_name_h3'>{{ company.name}}</h3>
         </a>
+        <p>{{ company.industry }}</p>
     </div>
 </div>
 {% endmacro %}

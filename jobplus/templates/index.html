@@ -6,35 +6,34 @@
 {% block head %}
 <div class="jumbotron">
     <div class="container">
-    <h1>JOBPLUS</h1>
-    <p>找工作就上JOBPLUS</p>
+        <h1>JOBPLUS</h1>
+        <p>找工作就上JOBPLUS</p>
     </div>
 </div>
 {% endblock %}
 
 {% block body %}
-<ul class="nav nav-tabs list-title">
-        <li role="presentation" class="active"><a href="#">New post</a></li>
-    </ul>
 
 <div class='row'>
     {% for job in jobs %}
     <div class="col-md-4">
         <div class="job_item">
             <div class="caption">
-                <a href='/'><h3 class='index_title'>{{ job.name }}</h3></a>
+                <a href="{{ url_for('job.detail', job_id=job.id) }}"><h3 class='index_title'>{{ job.name }}</h3></a>
                 <p>{{ job.work_year }}  {{ job.degree }}</p> 
             </div>
             <hr />
             <div class='media'>
+                <a href="{{ url_for('company.detail', company_id=job.company.id) }}">
                 <div class='media-left'>
                     <img src="{{job.company.logo}}" class="media-object" width="82" height="82"/>
                 </div>
                 <div class='media-body' style="vertical-align: middle">
-                    <h4 class='media-heading'>
+                    <h4 class='media-heading company_name'>
                         {{ job.company.name }} 
                     </h4>
                 </div>
+                </a>
             </div>
         </div>
     </div>
@@ -42,7 +41,7 @@
 </div>
 
 <p class="list-more">
-    <a href="{{ url_for('company.index') }}" class="btn btn-success btn-lg list-more-btn">More</a>
+    <a href="{{ url_for('job.index') }}" class="btn btn-success btn-lg list-more-btn">更多职位</a>
 </p>
 
 {% endblock %}

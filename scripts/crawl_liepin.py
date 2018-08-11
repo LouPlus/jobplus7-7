@@ -6,6 +6,8 @@ class LiePinS(scrapy.Spider):
 
     def parse(self, response):
         for i in response.css('li.clearfix'):    
+            if i == 0:
+                continue
         
             url = i.css('p.job-title a::attr(href)').extract_first()
             

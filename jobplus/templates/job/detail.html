@@ -9,7 +9,8 @@
     <div class="container">
         <div class="col-md-8">
             <h2>{{ job.name }}</h2>
-             <p><span class="job-salary">{{ job.salary }}</span>&nbsp;学历及经验{{ job.degree }}    
+             <p>
+                <span class="job-salary">{{ job.salary }}</span>&nbsp;{{ job.degree }}    
              </p>
         </div>
         <div class='col-md-4'>
@@ -35,19 +36,30 @@
         <h3>福利待遇</h3> <br>
         <p>{{ job.company.welfare }}</p> <br>
     </div>
+    <div class="job-detail">
+        <h3>职位介绍</h3> <br>
+
+        {% if job.description %}
+        <p>{{ job.description }}</p>
+        {% else %}
+        <p>暂时还没有介绍哦</p>
+        {% endif %}
+    </div>
 </div>
 
 <div class="col-md-4">
     <div class="media">
         <div class="media-left">
-            <a href="#">
-                <img src="{{ job.company.logo }}" class="media-object" height="96" width="96"> 
+            <a href="{{ url_for('company.detail', company_id=job.company.id) }}">
+                <img src="{{ job.company.logo }}" class="media-object img_border bot_15" height="96" width="96"> 
             </a>
         </div>
         <div class="media-body">
         </div>
     </div>
-    <h4>{{ job.company.name }}</h4>
+    <a href="{{ url_for('company.detail', company_id=job.company.id) }}">
+        <h4>{{ job.company.name }}</h4>
+    </a>
     <p>领域:{{ job.company.industry }}</p>
     <p>规模:{{ job.company.staff_num }}</p>
     <p>地址:{{ job.company.address }}</p>

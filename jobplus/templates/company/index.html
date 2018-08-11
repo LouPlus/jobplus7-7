@@ -12,18 +12,18 @@
 
 
 {% block body %}
-<div class="jumbotron">
-    <h1>最新公司</h1>
-    <p>找工作就上JOBPLUS</p>
-</div>
+    <div class="jumbotron">
+        <h1>最新公司</h1>
+        <p>找工作就上JOBPLUS</p>
+    </div>
 
 
-  <div class="company-list">
-      {% for company in pagination.items %}
+    <div class="company-list">
+    {% for company in pagination.items %}
         {{ render_company(company) }}
-        {% endfor %}
-  </div>
+    {% endfor %}
+    </div>
 
-{{ render_pagination(pagination, 'company.index') }}
+    {{ render_pagination(pagination, 'company.index') }}
 {% endblock %}
 
