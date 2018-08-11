@@ -68,7 +68,7 @@ def detail(job_id):
 def send_resume(job_id):
     job = Job.query.get_or_404(job_id)
 
-    if current_user.resume.resume_url is None:
+    if not current_user.resume.resume_url:
         flash('请上传简历后再投递', 'warning')
     elif job.current_user_is_applied:
         flash('已经投递过该职位', 'warning')

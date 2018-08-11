@@ -38,8 +38,15 @@ class RegisterForm(FlaskForm):
         user.username = self.name.data
         user.email = self.email.data
         user.password = self.password.data
-        db.session.add(user)
-        db.session.commit()
+
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except:
+            db.session.rollback()
+
+        u = User.query.filter_by(email=user.email).first()
+        self.create_resume(u)
         return user
 
     def create_company(self):
@@ -48,10 +55,32 @@ class RegisterForm(FlaskForm):
         user.email = self.email.data
         user.password = self.password.data
         user.role = User.ROLE_COMPANY 
-        db.session.add(user)
-        db.session.commit()
+
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except:
+            db.session.rollback()
+
+        u = User.query.filter_by(email=user.email).first()
+        self.create_table_company(u)
+
         return user
-    
+
+    def create_resume(self, user):
+        resume = Resume()
+        resume.user_id = user.id
+        db.session.add(resume)
+        db.session.commit()
+
+    def create_table_company(self, user):
+        print(user)
+        company = Company()
+        company.user_id = user.id
+        company.name = user.username
+        db.session.add(company)
+        db.session.commit()
+
 
 class UserProfileForm(FlaskForm):
     name = StringField('真实姓名', validators=[Length(2, 24)])
@@ -62,9 +91,10 @@ class UserProfileForm(FlaskForm):
     submit = SubmitField('提交')
 
     def validate_phone(self, field):
-        phone = field.data
-        if phone[:2] not in ['13', '15', '18'] or len(phone) != 11:
-            raise ValidationError('请输入有效的手机号码')
+        if field.data:
+            phone = field.data
+            if phone[:2] not in ['13', '15', '18'] or len(phone) != 11:
+                raise ValidationError('请输入有效的手机号码')
 
     def update_resume(self, user):
         if user.resume:
@@ -98,6 +128,7 @@ class CompanyProfileForm(FlaskForm):
             phone = field.data
             if phone[:2] not in ['13', '15', '18'] or len(phone) != 11:
                 raise ValidationError('请输入有效的手机号码')
+
     def validate_name(self, f):
         c = Company.query.filter_by(name=f.data).first()
         if current_user.company: 

@@ -50,14 +50,16 @@
 <div class="col-md-4">
     <div class="media">
         <div class="media-left">
-            <a href="#">
+            <a href="{{ url_for('company.detail', company_id=job.company.id) }}">
                 <img src="{{ job.company.logo }}" class="media-object img_border bot_15" height="96" width="96"> 
             </a>
         </div>
         <div class="media-body">
         </div>
     </div>
-    <h4>{{ job.company.name }}</h4>
+    <a href="{{ url_for('company.detail', company_id=job.company.id) }}">
+        <h4>{{ job.company.name }}</h4>
+    </a>
     <p>领域:{{ job.company.industry }}</p>
     <p>规模:{{ job.company.staff_num }}</p>
     <p>地址:{{ job.company.address }}</p>
