@@ -25,7 +25,7 @@ def fake_user():
         db.session.add(u)
         db.session.commit()
     except:
-        db.rollback()
+        db.session.rollback()
 
     user = User.query.filter_by(email=u.email).first_or_404()
 
@@ -73,7 +73,6 @@ def fake_companies():
             name = company['name'],
             logo = company['logo'],
             phone = '16699998888',
-            description = '暂时还没有描述呢~',
             website = 'shiyanlou.com',
             address = company['address'].split('：')[1],
             city = company['city'],

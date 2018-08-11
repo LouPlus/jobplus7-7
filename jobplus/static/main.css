@@ -1,16 +1,16 @@
 .job_item {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
 }
 .center {
-  text-align: center;
+    text-align: center;
 }
 .index_title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .form {
     width: 400px;
@@ -44,25 +44,31 @@
     text-align: center;
 }
 .nav-navigation {
-  text-align: center;
+    text-align: center;
 }
 .company_name {
-  line-height: 1.5 !important;
-  min-width: 72px !important;
+    line-height: 1.5 !important;
+    min-width: 72px !important;
 }
 .job-salary {
-  color: #fd5f39
+    color: #fd5f39
 }
 .job-detail {
-font-size: 15px;
-margin-bottom: 50px;
+    font-size: 15px;
+    margin-bottom: 50px;
 }
 .job-meta{
-color: #999
+    color: #999
 }
 .job-item{
-border: 1px solid #eee;
-border-left: 5px solid #00b38a;
-padding: 15px 10px;
-margin-bottom: 15px;
+    border: 1px solid #eee;
+    border-left: 5px solid #00b38a;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+}
+.img_border {
+    border: 1px solid #eee;
+}
+.bot_15 {
+    margin-bottom: 15px;
 }

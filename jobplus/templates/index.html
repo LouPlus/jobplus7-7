@@ -6,8 +6,8 @@
 {% block head %}
 <div class="jumbotron">
     <div class="container">
-    <h1>JOBPLUS</h1>
-    <p>找工作就上JOBPLUS</p>
+        <h1>JOBPLUS</h1>
+        <p>找工作就上JOBPLUS</p>
     </div>
 </div>
 {% endblock %}
@@ -19,7 +19,7 @@
     <div class="col-md-4">
         <div class="job_item">
             <div class="caption">
-                <a href='/'><h3 class='index_title'>{{ job.name }}</h3></a>
+                <a href="{{ url_for('job.detail', job_id=job.id) }}"><h3 class='index_title'>{{ job.name }}</h3></a>
                 <p>{{ job.work_year }}  {{ job.degree }}</p> 
             </div>
             <hr />
