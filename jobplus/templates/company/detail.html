@@ -37,10 +37,11 @@
         <div class="job-item">
             <a href="{{ url_for('job.detail', job_id=job.id) }}">
                 <h4>{{ job.name }}</h4>
-                <p><span class="job-salary">{{ job.salary }}</span>&nbsp;
-                <span class="job-meta">经验{{ job.work_year }}</span>
-                </p>
             </a>
+            <p>
+                <span class="job-salary">{{ job.salary }}</span>&nbsp;
+                <span class="job-meta">经验{{ job.work_year }}</span>
+            </p>
         </div>
         {% endfor %}
         {% endif %}

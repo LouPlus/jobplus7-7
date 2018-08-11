@@ -134,6 +134,9 @@ class CompanyProfileForm(FlaskForm):
         if current_user.company: 
             if c and c != current_user.company:
                 raise ValidationError('该公司名已经存在')
+        else:
+            if c and c.name == f.data:
+                raise ValidationError('该公司名已经存在')
 
 
     def update_company(self, user):

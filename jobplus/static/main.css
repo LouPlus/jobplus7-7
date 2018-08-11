@@ -49,10 +49,6 @@ a {
 .nav-navigation {
     text-align: center;
 }
-.company_name {
-    line-height: 1.5 !important;
-    min-width: 72px !important;
-}
 .job-salary {
     color: #fd5f39
 }
@@ -75,8 +71,12 @@ a {
 .bot_15 {
     margin-bottom: 15px;
 }
+.company_name_h3 {
+    line-height: 1.5 !important;
+    min-height: 72px !important;
+}
 .company_name {
-    color: #000;
+    color: #333;
 }
 .company_name:hover {
     color: #ff9900;
